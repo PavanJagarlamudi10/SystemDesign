@@ -1,0 +1,43 @@
+1) Single-node LRU
+
+        Data structures: HashMap + Doubly Linked List       
+        Time complexity: O(1) get and put        
+        Eviction: global LRU — DLL for storing the order of recent items ( O(1) remove or add item)      
+      Edge cases: empty cache, updating existing keys, evicting head/tail
+      Optional
+        Replicas to each node for fault tolerance ( no memory capacity increased )
+        
+2) Distributed cache naive approach 
+        
+        Sharding with :  key % num_of_nodes      
+      Pros: simple, horizontal scale        
+      Cons: all keys move when node count changes, hot spots, no replication
+
+3) Distributed cache with consistent hashing  
+
+        uses hashring technique
+        Principle: map keys to the next node clockwise     
+        Only subset of keys move when node added/removed → minimal disruption
+        Temporary imbalance possible
+      Pros : horizontal scaling without rehashing everything
+            Virtual nodes smooth distribution (when imbalance is concerned)
+      Cons : slightly complex implementation
+              metadata overhead for hashring and v-nodes
+
+ ***** Trade-offs in distributed LRU ******
+
+      Eviction is local per node
+      Distributed systems cause network latency vs single node
+      True global LRU is hard / expensive
+      Approximate solutions exist (TinyLFU, frequency tracking)
+
+******* Other trade offs ********
+        Concern	                          Trade-off
+    Data consistency	      May need replication → more memory and network traffic
+    Fault tolerance	        Adding replication → slower writes, higher complexity
+    Network latency	        Distributed cache introduces latency vs single-node RAM access
+    Eviction policies	      LRU/MRU per node, not global → global hottest items might not be perfectly cached
+
+
+    
+     
