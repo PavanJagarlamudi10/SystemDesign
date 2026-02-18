@@ -1,3 +1,6 @@
+LRU (Least Recently Used) is evicted 1st
+Browser cache, Redis cache, Memcache
+
 1) Single-node LRU
 
         Data structures: HashMap + Doubly Linked List       
